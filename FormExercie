@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>recap</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</head>
+<body>
+      <form method="POST" action="recap.php" enctype="multipart/form-data">
+
+            <div class="form-group">
+                    
+                    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="First Name" name="firstName">
+            </div>
+
+            <div class="form-group">
+                    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Last Name" name="lastName">
+            </div>
+
+
+            <div class="form-group">
+                   <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+           </div>
+
+            <div class="form-group">
+              <select class="form-control" id="exampleSelect1" name="type">
+                <option>Viande</option>
+                <option>Escalope</option>
+                <option>Poulet</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="Adress" name="adress"></textarea>
+            </div>
+            
+
+            <div class="form-group row">
+                    <div class="col-10"> 
+                      <input class="form-control" type="number" value="1" id="example-number-input" name="nombre" placeholder="Nombre de sandwitchs">
+                    </div>
+                  </div>
+            
+            <fieldset class="form-group">
+              <!-- <legend>Radio buttons</legend> -->
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" name="ingredients[]" id="optionsRadios1" value="hrissa" checked>
+                  Hrissa
+                </label>
+              </div>
+
+              <div class="form-check disabled">
+              <label class="form-check-label">
+                  <input type="radio" class="form-check-input" name="ingredients[]" id="optionsRadios2" value="salade" >
+                  Salade
+             </label>
+              </div>
+
+              <div class="form-check disabled">
+              <label class="form-check-label">
+                  <input type="radio" class="form-check-input" name="ingredients[]" id="optionsRadios3" value="mayo" disabled>
+                  Mayo
+                </label>
+              </div>
+            </fieldset>
+
+            <div>
+            <input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
+            <input type="file" name="card" value="idCard" />uploader votre CIN <br>
+            
+            </div>
+
+            <button type="submit" class="btn btn-primary" name="envoyer">Submit</button>
+          </form>
+
+</body>
+
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>recap</title> 
+</head>
+
+<body>
+
+
+
+
+       <?php
+    echo "bonjour ";
+        if (isset($_POST['envoyer'])){ 
+             echo "<p align='center'>RECAP DE VOTRE COMMANDE:</p> <br><br>";
+             $fname = $_POST['firstName'];
+             $lname = $_POST['lastName'];
+            
+             echo " Bonjour <strong>{$fname}, {$lname} </strong> <br>, vous trouvez ci-dessous le recap de votre commande";
+            }
+            $fAdress=$_POST['adress'];
+            $fEmail=$_POST['email']; 
+       $nbre = $_POST['nombre'];
+       $type = $_POST['type'];
+       $ingredient = $_POST['ingredients'];
+         ?>
+
+<ul>
+    <li>
+        <?php echo "{$nbre}";?> Sandwitch(s)
+    </li>
+
+    <li>
+        A l'Addresse: <?php echo "{$fAdress}";?>
+    </li>
+
+    <li>
+        Le(s) sandwitch(s) est/sont de type : <?php echo "{$type}";?>
+    </li>
+    <?php
+    //if($_POST['ingredients'] !== null){ ?> 
+        <li>
+
+            Avec les ingredients:
+        <ul>
+
+
+            <?php foreach ($_POST['ingredients'] as $n): ?> 
+                        <li><?php echo $n;  ?></li>
+            <?php endforeach; ?>
+
+        </ul>
+     
+    </li>
+
+</ul>
+
+       <?php
+       if ($nbre >=10){
+       echo  " Vous beneficiez d'une remise de 10%: " .$addition  = ($nbre * 4) - (10*($nbre * 4)/100). " dt"; 
+              }
+              else{
+           $addition  = $nbre * 4;
+       }
+       ?>
+       <p>
+           Votre addition est:
+           <?php echo $addition."dt" ?>
+           
+       </p>
+
+       <br>
+
+       <?PHP
+       echo "<br>";
+
+       // on doit recuperer l nom de fichier ; apres on ajoute l date d chargemen d fichier : la fonction en PHP qui vous retourne une valeur aléatoire unique. 
+       $cardName = $_FILES['card']['name'];
+       $newCardName = $cardName . date("Y m d h i s a");
+       ?>
+    <?php
+       echo "<br>card : $newCardName";  
+       ?>
+
+
+
+</body>
+</html>
+
